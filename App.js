@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import Login from './screens/Login';
+
+const Stack = createStackNavigator();
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'transparent'
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+
+  const [loaded] = useFonts({
+    PoppinsBold: require('./assets/fonts/Poppins-Bold.ttf'),
+    PoppinsSemiBold: require('./assets/fonts/Poppins-SemiBold.ttf'),
+    PoppinsMedium: require('./assets/fonts/Poppins-Medium.ttf'),
+    PoppinsRegular: require('./assets/fonts/Poppins-Regular.ttf'),
+    PoppinsLight: require('./assets/fonts/Poppins-Light.ttf'),
+  });
+
+  if (!loaded) return null;
+
+  return (
+      <NavigationContainer theme={theme} >
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Login'>
+          <Stack.Screen name='Login' component={Login} />
+        </Stack.Navigator>
+      </NavigationContainer>
+  );
+
+}
+
+export default App;
